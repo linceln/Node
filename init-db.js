@@ -5,5 +5,5 @@ const model = require('./model');
 (async () => {
     await model.sync();
     console.log('Init DB OK! ');
-    // process.exit(0);
+    // process.exit(0)
 })();
