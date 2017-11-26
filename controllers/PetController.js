@@ -15,7 +15,7 @@ var fn_create_pet = async (ctx, next) => {
         categoryId: categoryId,
         birth: birth,
     })
-    
+
     ctx.render('pet-list.html', {
         title: 'create pet',
         name: new_pet.name

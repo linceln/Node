@@ -12,6 +12,8 @@ const log = require('./log');
 
 const templating = require('./templating');
 
+const restify = require('./rest');
+
 // 判断是否生产环境
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -29,6 +31,8 @@ koa.use(templating('views', {
     noCache: !isProduction,
     watch: !isProduction
 }));
+
+koa.use(restify.restify());
 
 koa.use(controller());
 

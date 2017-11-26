@@ -11,7 +11,7 @@ var Pet = db.defineModel('pet', {
     categoryId: db.INTEGER,
     name: db.STRING(100),
     gender: db.INTEGER,
-    birth: db.STRING(10)
+    birthday: db.BIGINT
 })
 
 module.exports = Pet;
