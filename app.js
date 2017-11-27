@@ -32,7 +32,7 @@ koa.use(templating('views', {
     watch: !isProduction
 }));
 
-koa.use(restify.restify());
+koa.use(restify());
 
 koa.use(controller());
 
