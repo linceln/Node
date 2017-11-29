@@ -7,14 +7,18 @@
                     <h3 class="panel-title">
                         <span class="glyphicon glyphicon-user"></span> Please sign in</h3>
                 </div>
+                <div id="vm">
+                        <p>Hello, <span v-text="name"></span></p>
+                        <p>You are <span v-text="age"></span> years old!</p>
+                    </div>
                 <div class="panel-body">
                     <form action="/signin" method="post">
                         <div class="form-group">
-                            <label>Name</label>
+                            <label>Name {{ name }}</label>
                             <input type="text" name="name" class="form-control" placeholder="Name">
                         </div>
                         <div class="form-group">
-                            <label>Password</label>
+                            <label>Password {{ age }}</label>
                             <input type="password" name="password" class="form-control" placeholder="Password">
                         </div>
                         <button type="submit" class="btn btn-primary">Sign In</button>
