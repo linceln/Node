@@ -20,7 +20,7 @@ var fn_signin = async (ctx, next) => {
                 name: 'Mr Duan',
                 gender: 2,
                 categoryId: 2,
-                birth: '2017-07-07',
+                birthday: '2017-07-07',
             })
         });
 
