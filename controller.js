@@ -33,6 +33,14 @@ function addMapping(mapping) {
             var path = url.substring(5);
             router.post(path, mapping[url]);
             console.log(`Registering POST url: ${url}`);
+        } else if (url.startsWith('PUT ')) {
+            var path = url.substring(4);
+            router.put(path, mapping[url]);
+            console.log(`Registering PUT url: ${url}`);
+        } else if (url.startsWith('DELETE ')) {
+            var path = url.substring(7);
+            router.del(path, mapping[url]);
+            console.log(`Registering DELETE url: ${url}`);
         } else {
             console.log(`Invalid url: ${url}`);
         }
