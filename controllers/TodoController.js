@@ -19,9 +19,7 @@ var fn_todo_list = async (ctx, next) => {
             ['id', 'DESC']
         ]
     });
-    ctx.rest({
-        todoList: todoList
-    })
+    ctx.rest({todoList: todoList})
 }
 
 var fn_create_todo = async (ctx, next) => {
@@ -40,9 +38,7 @@ var fn_create_todo = async (ctx, next) => {
         description: description,
         rank: rank || 0
     })
-    ctx.rest({
-        todo: newTodo
-    })
+    ctx.rest({todo: newTodo})
 }
 
 var fn_update_todo = async (ctx, next) => {
@@ -55,9 +51,7 @@ var fn_update_todo = async (ctx, next) => {
     let rank = ctx.request.body.rank;
     let Todo = model.Todo;
     let todo = await Todo.findOne({
-        where: {
-            id: id
-        }
+        where: {id: id}
     });
     if (title) {
         todo.title = title;
@@ -69,9 +63,7 @@ var fn_update_todo = async (ctx, next) => {
         todo.rank = rank
     }
     await todo.save();
-    ctx.rest({
-        todo: todo
-    })
+    ctx.rest({todo: todo})
 }
 
 var fn_delete_todo = async (ctx, next) => {

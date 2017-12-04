@@ -34,7 +34,7 @@
                         }).done(function (response) {
                             vm.todoList = response.todoList;
                         }).fail(function (response) {
-                            alert('response.body.message');
+                            alert(response.responseJSON.message);
                         });
                     },
                     createTodo: function (todo) {
@@ -49,7 +49,7 @@
                             vmAdd.title = '';
                             vmAdd.description = '';
                         }).fail(function (response) {
-                            alert(response.body.message);
+                            alert(response.responseJSON.message);
                         });
                     },
                     updateTodo: function (todo) {
@@ -66,7 +66,7 @@
                                 }
                             }
                         }).fail(function (response) {
-                            alert(response.body.message);
+                            alert(response.responseJSON.message);
                         })
                     },
                     deleteTodo: function (id) {
@@ -82,7 +82,7 @@
                                 }
                             }
                         }).fail(function (response) {
-                            alert(response.body.message);
+                            alert(response.responseJSON.message);
                         });
                     }
                 }
@@ -125,20 +125,18 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div id="vm-create">
-                    <h3>新建待办事项</h3>
-                    <form id="vmAdd" action="#0" v-on:submit.prevent="submit">
-                        <div class="form-group">
-                            <label>Title</label>
-                            <input type="text" v-model="title" class="form-control" placeholder="Title">
-                        </div>
-                        <div class="form-group">
-                            <label>Description</label>
-                            <textarea rows="10" v-model="description" class="form-control" placeholder="Description"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block">Create</button>
-                    </form>
-                </div>
+                <h3>新建待办事项</h3>
+                <form id="vmAdd" action="#0" v-on:submit.prevent="submit">
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" v-model="title" class="form-control" placeholder="Title">
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea rows="10" v-model="description" class="form-control" placeholder="Description"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Create</button>
+                </form>
             </div>
         </div>
     </div>
