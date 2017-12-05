@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="learn javascript by www.liaoxuefeng.com">
+    <title>更新版本</title>
+    <script src="/static/js/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/vue.js"></script>
+    <script>
+        $(function () {
+            var current = new Vue({
+                el: '#current',
+                data: {
+                    versions: [],
+                    url: '/api/v1/versions'
+                },
+                created: function () {
+                    this.getVersionList();
+                },
+                methods: {
+                    getVersionList: function () {
+                        var that = this;
+                        $.ajax({
+                            type: 'get',
+                            dataType: 'json',
+                            url: this.url
+                        }).done(function (response) {
+                            that.versions = response.versions;
+                        }).fail(function (response) {
+                            alert(response.responseJSON.message);
+                        });
+                    },
+                    update: function (version) {
+                        var that = this;
+                        $.ajax({
+                            type: 'post',
+                            dataType: 'json',
+                            data: version,
+                            url: this.url
+                        }).done(function (response) {
+                            that.getVersionList();
+                        }).fail(function (response) {
+                            alert(response.responseJSON.message);
+                        });
+                    }
+                }
+            });
+
+            var update = new Vue({
+                el: '#update',
+                data: {
+                    versionName: '',
+                    device: 1,
+                    url: '',
+                    open: true,
+                    force: false
+                },
+                methods: {
+                    submit: function () {
+                        current.update(this.$data);
+                    },
+                    upload: function () {
+                        let formData = new FormData();
+                        formData.append('file', $("#upload")[0].files[0]);
+                        $.ajax({
+                            type: 'post',
+                            url: '/api/v1/apk',
+                            cache: false,
+                            data: formData,
+                            processData: false,
+                            contentType: false
+                        }).done(function (response) {
+                            alert(response.message);
+                        }).fail(function (response) {
+                            alert(response.responseJSON.message);
+                        })
+                    }
+                }
+            });
+        })
+    </script>
+</head>
+
+<body>
+    <div id="important" style="color:#cdbfe3; background-color:#6f5499; padding:30px 0; margin:-20px 0 20px 0;">
+        <div class="container">
+            <h1 style="color:#fff; font-size:60px">手机端版本更新</h1>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> 最新版本</h3>
+                    </div>
+                    <div class="panel-body" id="current">
+                        <ol>
+                            <li v-for="v in versions">
+                                <dl>
+                                    <dt v-text="v.device == 1 ? 'Android' : 'iOS'"></dt>
+                                    <dd v-text="v.versionName"></dd>
+                                </dl>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> 更新版本</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form id="update" action="#" v-on:submit.prevent="submit">
+                            <div class="form-group">
+                                <label>版本号</label>
+                                <input type="text" v-model="versionName" class="form-control" placeholder="x.x.x">
+                            </div>
+                            <div class="form-group">
+                                <input type="radio" id="android" value="1" v-model="device">
+                                <label for="android">Android</label>
+                                <input type="radio" id="ios" value="2" v-model="device">
+                                <label for="ios">iOS</label>
+                            </div>
+                            <div class="form-group" v-if="device == 1">
+                                <label>APK 安装包</label>
+                                <input type="file" id="upload" v-on:change="upload">
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" id="switch" v-model="open">
+                                <label for="switch">开启更新</label>
+                                <input type="checkbox" id="force" v-model="force">
+                                <label for="force">强制更新</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">提交</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<footer>
+
+</footer>
+
+</html>

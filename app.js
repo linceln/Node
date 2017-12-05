@@ -6,6 +6,8 @@ const koa = new Koa();
 
 const bodyParser = require('koa-bodyparser');
 
+const koaBody = require('koa-body');
+
 const controller = require('./controller');
 
 const log = require('./log');
@@ -24,6 +26,9 @@ if (!isProduction) {
     koa.use(static('/static/', __dirname + '/static'));
 }
 
+koa.use(restify.rest());
+// Handle multipart files
+koa.use(koaBody({ multipart: true }));
 // Add bodyParser middleware to handle POST request
 koa.use(bodyParser());
 
@@ -31,8 +36,6 @@ koa.use(templating('views', {
     noCache: !isProduction,
     watch: !isProduction
 }));
-
-koa.use(restify.rest());
 
 koa.use(controller());
 

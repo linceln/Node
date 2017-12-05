@@ -114,26 +114,24 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <div id="vm">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">
-                                <span class="glyphicon glyphicon-list" aria-hidden="true"></span> 列表</h3>
-                        </div>
-                        <div class="panel-body">
-                            <ol>
-                                <li v-for="t in todoList">
-                                    <dl>
-                                        <dt v-text="t.title"></dt>
-                                        <dd v-text="t.description"></dd>
-                                        <dd>
-                                            <a href="#" v-on:click="deleteTodo(t.id)">
-                                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</a>
-                                        </dd>
-                                    </dl>
-                                </li>
-                            </ol>
-                        </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <span class="glyphicon glyphicon-list" aria-hidden="true"></span> 列表</h3>
+                    </div>
+                    <div class="panel-body" id="vm">
+                        <ol>
+                            <li v-for="t in todoList">
+                                <dl>
+                                    <dt v-text="t.title"></dt>
+                                    <dd v-text="t.description"></dd>
+                                    <dd>
+                                        <a href="#" v-on:click="deleteTodo(t.id)">
+                                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</a>
+                                    </dd>
+                                </dl>
+                            </li>
+                        </ol>
                     </div>
                 </div>
             </div>

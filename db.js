@@ -29,7 +29,8 @@ function defineModel(name, attributes) {
 
     attrs.id = {
         type: Sequelize.INTEGER,
-        primaryKey: true
+        primaryKey: true,
+        autoIncrement: true
     };
 
     for (let key in attributes) {
@@ -56,7 +57,7 @@ function defineModel(name, attributes) {
     }
 
     attrs.version = {
-        type: Sequelize.BIGINT,
+        type: Sequelize.INTEGER,
         allowNull: false
     }
 
