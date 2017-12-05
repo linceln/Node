@@ -73,7 +73,7 @@ function defineModel(name, attributes) {
                     obj.version = 0;
                 } else {
                     obj.updatedAt = now;
-                    obj.version++;
+                    obj.version = obj.version + 1;
                 }
             }
         }

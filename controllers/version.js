@@ -17,13 +17,15 @@ var fn_get_version_list = async (ctx, next) => {
 }
 
 var fn_update_version = async (ctx, next) => {
-    let device = ctx.response.body.device;
+    let device = ctx.request.body.device;
 
-    let url = ctx.response.body.url || '';
+    let url = ctx.request.body.url || '';
 
-    let versionName = ctx.response.body.version;
+    let versionName = ctx.request.body.versionName;
 
-    let open = ctx.respons.body.open || false;
+    let open = ctx.request.body.open === 'true' ? 1 : 0;
+
+    let force = ctx.request.body.force === 'true' ? 1 : 0;
 
     if (!device) {
         throw new APIError('Empty', 'Device cannot be empty!');
@@ -47,30 +49,40 @@ var fn_update_version = async (ctx, next) => {
             device: device,
             url: url,
             versionName: versionName,
-            open: open ? 1 : 0
+            open: open,
+            force: force
         });
     } else {
         version.device = device;
-        version.device = url;
-        version.device = versionName;
-        version.open = open ? 1 : 0;
+        version.url = url;
+        version.versionName = versionName;
+        version.open = open;
+        version.force = force;
         await version.save();
-    }
+    };
     ctx.rest({});
 }
 
+/**
+ * 文件上传
+ * @param {*} ctx 
+ * @param {*} next 
+ */
 var fn_upload_apk = async (ctx, next) => {
     let file = ctx.request.body.files.file;
     if (file.size > 0) {
-        let newPath = path.join(__dirname, 'apk');
+        let newPath = path.join(process.cwd(), 'apk');
         if (!fs.existsSync(newPath)) {
             fs.mkdirSync(newPath);
         }
-        let newFilePath = path.join(newPath, file.name);
+        var newFilePath = path.join(newPath, file.name);
         let writeStream = fs.createWriteStream(newFilePath);
         await fs.createReadStream(file.path).pipe(writeStream);
+    } else {
+        throw new APIError('Empty', 'File is empty!')
     }
     ctx.rest({
+        url: newFilePath,
         message: "上传成功"
     });
 }
