@@ -63,6 +63,13 @@
                     submit: function () {
                         current.update(this.$data);
                     },
+                    progressing: function (event) {
+                        if (event.lengthComputable) {
+                            var loaded = parseInt(event.loaded / event.total * 100) + "%";
+                            $('#uploadProgress').width(loaded);
+                            $('#uploadProgress').text(loaded);
+                        }
+                    },
                     upload: function () {
                         let that = this;
                         let formData = new FormData();
@@ -73,11 +80,17 @@
                             cache: false,
                             data: formData,
                             processData: false,
-                            contentType: false
+                            contentType: false,
+                            xhr: function () {
+                                myXhr = $.ajaxSettings.xhr();
+                                if (myXhr.upload) { //检查upload属性是否存在  
+                                    //绑定progress事件的回调函数  
+                                    myXhr.upload.addEventListener('progress', that.progressing, false);
+                                }
+                                return myXhr; //xhr对象返回给jQuery使用  
+                            }
                         }).done(function (response) {
-                            console.log(response);
                             that.url = response.url;
-                            alert(response.message);
                         }).fail(function (response) {
                             alert(response.responseJSON.message);
                         })
@@ -134,9 +147,15 @@
                                 <input type="radio" id="ios" value="2" v-model="device">
                                 <label for="ios">iOS</label>
                             </div>
-                            <div class="form-group" v-if="device == 1">
+                            <div class="form-group" v-show="device == 1">
                                 <label>APK 安装包</label>
                                 <input type="file" id="upload" v-on:change="upload">
+                            </div>
+                            <div class="form-group" v-show="device == 1">
+                                <div class="progress">
+                                    <div id="uploadProgress" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 0em;">
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <input type="checkbox" id="switch" v-model="open">

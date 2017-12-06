@@ -82,7 +82,7 @@ var fn_upload_apk = async (ctx, next) => {
         throw new APIError('Empty', 'File is empty!')
     }
     ctx.rest({
-        url: newFilePath,
+        url: path.join('apk', file.name),
         message: "上传成功"
     });
 }
