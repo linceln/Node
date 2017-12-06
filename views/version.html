@@ -45,9 +45,11 @@
                             that.getVersionList();
                             update.versionName = '';
                             update.device = 1;
-                            url = '';
+                            update.url = '';
                             update.open = true;
                             update.force = false;
+                            $('#uploadProgress').width('');
+                            $('#uploadProgress').text('');
                         }).fail(function (response) {
                             alert(response.responseJSON.message);
                         });
