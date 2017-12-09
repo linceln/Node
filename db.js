@@ -12,7 +12,8 @@ var sequelize = new Sequelize(config.database, config.username, config.password,
         max: 5,
         min: 0,
         idle: 10000
-    }
+    },
+    operatorsAliases: false// 不使用任何操作符别名
 });
 
 // sequelize
@@ -71,10 +72,19 @@ function defineModel(name, attributes) {
                     obj.createdAt = now;
                     obj.updatedAt = now;
                     obj.version = 0;
-                } else {
-                    obj.updatedAt = now;
-                    obj.version = obj.version + 1;
                 }
+            },
+            beforeCreate: function (obj) {
+                let now = Date.now();
+                obj.createdAt = now;
+                obj.updatedAt = now;
+                obj.version = 0;
+            },
+            beforeUpdate: function (obj, options) {
+                let now = Date.now();
+                obj.updatedAt = now;
+                obj.version = obj.version + 1;
+                options.validate = false;
             }
         }
     })

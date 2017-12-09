@@ -23,9 +23,9 @@ var fn_update_version = async (ctx, next) => {
 
     let versionName = ctx.request.body.versionName;
 
-    let open = ctx.request.body.open === 'true' ? 1 : 0;
+    let open = ctx.request.body.open;
 
-    let force = ctx.request.body.force === 'true' ? 1 : 0;
+    let force = ctx.request.body.force;
 
     if (!device) {
         throw new APIError('Empty', 'Device cannot be empty!');
