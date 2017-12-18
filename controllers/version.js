@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 
 var fn_version_html = async (ctx, next) => {
-    ctx.render('version.html', {})
+    ctx.render('version/version.html', {})
 }
 
 var fn_get_version_list = async (ctx, next) => {
